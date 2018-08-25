@@ -24,6 +24,7 @@ const CommentSchema = Schema({
         type: Date,
         default: Date.now()
     }
+    
 });
 
 const Comment = mongoose.model('Comment',CommentSchema);

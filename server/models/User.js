@@ -1,4 +1,5 @@
 const mongoose  = require('mongoose');
+const _ = require('lodash');
 mongoose.Promise = global.Promise;
 const UserSchema = mongoose.Schema({
     username:{
@@ -34,16 +35,11 @@ const UserSchema = mongoose.Schema({
     }
 
 });
-
-UserSchema.pre('find',(next)=>{
-    this.populate('username name -_id');
-    next();
-});
-
-UserSchema.pre('find',(next)=>{
-    next();
-});
-
+UserSchema.methods.toJSON = function(){
+    let user = this;
+    let userObj = user.toObject();
+    return _.pick(userObj,['name']);
+}
 const User = mongoose.model('User',UserSchema);
 
 module.exports = User;

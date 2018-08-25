@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const _ = require('lodash');
 mongoose.Promise = global.Promise;
 
-const PostSchema = mongoose.Scheme({
+const PostSchema = mongoose.Schema({
     postTitle: {
         type:String,
         required: true
@@ -25,14 +26,21 @@ const PostSchema = mongoose.Scheme({
     }
 });
 
-
-PostSchema.pre('find',(next)=>{
-    this.populate({
+PostSchema.methods.toJSON = function(){
+    let post = this;
+    post.populate({path:'_creator',select:'name -_id'});
+    let postObj = post.toObject();
+    return _.pick(postObj,['postTitle','post','_creator']);
+}
+const filterFields = function(next){
+    let post = this;
+    post.populate({
         path: '_creator',
         select: 'name username -_id'
     });
     next();
-});
+}
+PostSchema.pre('find',filterFields);
 
 const Post = mongoose.model('Post',PostSchema);
 

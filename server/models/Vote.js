@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const VoteSchema = Schema({
     vote: {
-        type: number,
+        type: Number,
         default:0 
     },
     _comment: {

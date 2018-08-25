@@ -1,6 +1,6 @@
 const express = require('express');
 const apiRoutes = express();
-const {userController}  = require('../controllers');
+const {userController,postController}  = require('../controllers');
 apiRoutes.get('/',(req,res)=>{
     res.json({
         success: true,
@@ -9,5 +9,8 @@ apiRoutes.get('/',(req,res)=>{
 });
 
 apiRoutes.post('/newUser',userController.post);
+apiRoutes.get('/user/:search',userController.get);
+apiRoutes.post('/newPost',postController.post);
+apiRoutes.get('/post/:postTitle',postController.get);
 
 module.exports = {apiRoutes};
