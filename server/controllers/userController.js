@@ -3,9 +3,9 @@ const _ = require('lodash');
 const userController = {};
 userController.post = (req,res)=>{
     console.log(req.body);
-    let {username,name,email,password} = req.body;
+    let {username,firstName,lastName,email,password} = req.body;
     const user = new User({
-        username,name,email,password
+        username,firstName,lastName,email,password
     });
     user.save().then((newUser)=>{
         res.status(200).json({
@@ -22,9 +22,11 @@ userController.post = (req,res)=>{
 
 userController.get = (req,res)=>{
     let searchString = _.pick(req.params,['search']).search;
+    if(!searchString)
+        searchString = '';
     let search = new RegExp(searchString,'i');
     let searchExp = {$regex: search};
-    User.find().or([{username:searchExp},{name:searchExp}]).then((user)=>{
+    User.find({isDeleted:false}).or([{username:searchExp},{firstName:searchExp},{lastName:searchExp}]).then((user)=>{
         if(!user){
             return res.json({success:true,data:null});
         }

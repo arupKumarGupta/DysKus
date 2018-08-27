@@ -9,7 +9,7 @@ apiRoutes.get('/',(req,res)=>{
 });
 
 apiRoutes.post('/newUser',userController.post);
-apiRoutes.get('/user/:search',userController.get);
+apiRoutes.get('/user/:search?',userController.get);
 apiRoutes.post('/newPost',postController.post);
 apiRoutes.get('/post/:postTitle',postController.get);
 

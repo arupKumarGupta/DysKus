@@ -28,7 +28,6 @@ const PostSchema = mongoose.Schema({
 
 PostSchema.methods.toJSON = function(){
     let post = this;
-    post.populate({path:'_creator',select:'name -_id'});
     let postObj = post.toObject();
     return _.pick(postObj,['postTitle','post','_creator']);
 }
@@ -36,7 +35,7 @@ const filterFields = function(next){
     let post = this;
     post.populate({
         path: '_creator',
-        select: 'name username -_id'
+        select: 'firstName lastName username -_id'
     });
     next();
 }
